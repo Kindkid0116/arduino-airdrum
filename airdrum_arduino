@@ -1,0 +1,53 @@
+
+
+#include <Wire.h>
+#include <MPU6050.h>
+
+float vx=0,vy=0,vz=0;
+float x=0,y=0,z=0;
+float prevt = 0;
+
+MPU6050 mpu;
+
+void setup() {
+  Wire.begin();
+  Serial.begin(9600);
+  mpu.initialize();
+}
+void loop() {
+ int16_t ax,ay,az;
+ mpu.getAcceleration(&ax, &ay, &az);
+ /////참고 자료///////
+ /*
+  https://www.instructables.com/Accelerometer-MPU-6050-Communication-With-AVR-MCU/
+  */
+ float  aax = ax / 16384 * 9.8;
+ float  aay = ay / 16384 * 9.8;
+ float  aaz = az / 16384 * 9.8;
+
+ unsigned long currt = millis();
+ int t = (currt - prevt) / 1000;
+ prevt= currt;
+
+ //v= v0 +at
+ vx  += aax * t;
+ vy  += aay * t;
+ vz  += aaz * t;
+ 
+
+ x += vx*t;
+ y += vy* t;
+ z += vz* t;
+ 
+ Serial.print("x: ");
+ Serial.print(x);
+ Serial.print("y: ");
+ Serial.print(y);
+ Serial.print("az: ");
+ Serial.print(z);
+ if(x >= 30)
+ {
+  
+ }
+ 
+}
