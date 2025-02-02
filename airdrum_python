@@ -1,0 +1,15 @@
+import serial
+import pyautogui
+
+# 아두이노 시리얼 포트 설정 (Windows: COMx, Mac/Linux: /dev/ttyUSBx)
+ser = serial.Serial('COM3', 9600)
+
+while True:
+    data = ser.readline().decode().strip()
+    
+    if data == "S":
+        pyautogui.press('s')  # 스네어
+    elif data == "U":
+        pyautogui.press('u')  # 하이햇
+    elif data == "B":
+        pyautogui.press('b')  # 베이스 드럼
